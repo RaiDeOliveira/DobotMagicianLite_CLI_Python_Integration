@@ -45,3 +45,9 @@ Obs.: Por *garra*, entende-se a ferramenta que é fixada na ponta do braço do r
 - **Mover** -> Move a garra para um dado eixo e por uma dada distância
 - **Posição atual** -> Exibe, na CLI, a posição da garra do robô com base no valor de posição em cada eixo
 - **Sair da aplicação** -> Interrompe a execução da CLI
+
+
+
+## Vídeo de demonstração
+
+Para ver a aplicação funcionando, assista ao vídeo disponível [aqui](https://drive.google.com/file/d/1hKbQesxkbOtbn9_QSbsTMvAad9qUCRFM/view?usp=sharing).
