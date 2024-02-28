@@ -50,4 +50,4 @@ Obs.: Por *garra*, entende-se a ferramenta que é fixada na ponta do braço do r
 
 ## Vídeo de demonstração
 
-Para ver a aplicação funcionando, assista ao vídeo disponível [aqui](https://drive.google.com/file/d/1hKbQesxkbOtbn9_QSbsTMvAad9qUCRFM/view?usp=sharing).
+Para ver a aplicação funcionando, assista ao vídeo disponível [aqui](https://drive.google.com/file/d/1hKbQesxkbOtbn9_QSbsTMvAad9qUCRFM/view?usp=drive_link).
