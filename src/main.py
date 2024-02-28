@@ -10,19 +10,25 @@ import time
 
 # move the claw back to the main position
 def home():
+    loading.start()
     robot.move_to(200, 0, 0, 0)
+    loading.stop()
+    mainMenu()
 
 # turns the claw on
 def ligar_ferramenta():
     robot.suck(True)
+    mainMenu()
 
 # turns the claw off
 def desligar_ferramenta():
     robot.suck(False)
+    mainMenu()
 
 # moves the claw by a given distance on a given axys
 def mover(axys: str, distance: float):
     current_position = robot.pose()
+    loading.start()
     match axys:
         case "x":
             robot.move_to(distance, current_position[1], current_position[2], current_position[3])
@@ -32,19 +38,21 @@ def mover(axys: str, distance: float):
             robot.move_to(current_position[0], current_position[1], distance, current_position[3])
         case "r":
             robot.move_to(current_position[0], current_position[1], current_position[2], distance)
+    loading.stop()
+    mainMenu()
 
 # prints and returns current claw position
 def atual():
     current_position = robot.pose()
 
     print(f"\n\nPosição atual do robô:\n X:{current_position[0]}\n Y:{current_position[1]}\n Z:{current_position[2]}\n R:{current_position[3]}\n")
-    
-    return [current_position[0], current_position[1], current_position[2], current_position[3]]
+
+    mainMenu()
 
 # loading symbol instance
 loading = yaspin.yaspin(text="Em andamento...", color="yellow")
 
-
+# initial menu
 
 ### introduction text ###
 print(Back.LIGHTBLACK_EX + Fore.YELLOW + "Seja bem vindo ao Clidobot!")
@@ -54,7 +62,27 @@ print("Sua interface de linha de comando favorita para controlar o Dobot Magicia
 print(Back.BLACK + Fore.WHITE + "\nPrimeiro, selecione a porta USB na qual o robô que você quer controlar está conectado. Se nenhuma aparecer, certifique-se de que o robô está ligado e conectado.")
 #########################
 
+def mainMenu():
+    chosenAction = inquirer.prompt([
+        inquirer.List("action", message="MENU PRINCIPAL\nSelecione uma ação para ser realizada pelo robô", choices=["Home", "Ligar ferramenta", "Desligar ferramenta", "Mover", "Posição atual", "Sair da aplicação"])
+    ])
 
+    match chosenAction["action"]:
+        case "Home":
+            home()
+        case "Ligar ferramenta":
+            ligar_ferramenta()
+        case "Desligar ferramenta":
+            desligar_ferramenta()
+        case "Mover":
+            axys = input("Digite o eixo no qual você deseja mover a ferramenta do robô: ")
+            distance = float(input("Digite o valor da distância que você deseja mover o robô: "))
+            mover(axys, distance)
+        case "Posição atual":
+            atual()
+        case "Sair da aplicação": 
+            robot.close()
+            exit()
 
 # lists all of the USB ports that are currently being used to connect to other devices
 connectedUsbPorts = list_ports.comports()
@@ -68,26 +96,4 @@ chosenUsbPort = inquirer.prompt([
 robot = pydobot.Dobot(port=chosenUsbPort)
 robot.speed(200, 200)
 
-
-loading.start()
-home()
-time.sleep(3)
-ligar_ferramenta()
-atual()
-loading.stop()
-
-
-loading.start()
-mover("y", -200)
-mover("z", 100)
-time.sleep(3)
-desligar_ferramenta()
-atual()
-loading.stop()
-
-
-
-
-
-# Fecha a conexão com o robô
-robot.close()
+mainMenu()
